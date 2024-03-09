@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+
+    /* Base Options: */
+    "esModuleInterop": true, // Work with ESM and commonJS more easily
+    "skipLibCheck": true, // Improve perf by avoiding checks of node-modules
+    "target": "es2022", // Target stable version of JS
+    "allowJs": true, // Allow JS files to be compiled
+    "resolveJsonModule": true, // Import JSON files
+    "moduleDetection": "force", // Avoid https://www.totaltypescript.com/cannot-redeclare-block-scoped-variable errors
+    "isolatedModules": true, // This option prevents a few TS features which are unsafe
+
+    /* Strictness */
+    "strict": true, // Enables all strict type checking options
+    "noUncheckedIndexedAccess": true, // No accessing [0] on an array without checking if it exists
+
+    /* If your code doesn't run in the DOM: */
+    "lib": ["es2022"],
+
+    /* Transpiling: */
+    "moduleResolution": "NodeNext", // Best option for compiling for node
+    "module": "NodeNext",
+    "outDir": "dist",
+    "sourceMap": true
+  }
+}
