@@ -11,7 +11,7 @@ export class InMemoryUserRepository implements UserRepository {
   private users: User[] = [];
 
   async getById(id: string) {
-    return this.users.find((user) => user.id === id);
+    return this.users.find((user) => user.id === id)!;
   }
 
   async list() {

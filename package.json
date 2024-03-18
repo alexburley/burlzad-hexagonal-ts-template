@@ -9,10 +9,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/aws-lambda": "^4.0.0",
+    "@fastify/type-provider-typebox": "^4.0.0",
+    "@sinclair/typebox": "^0.32.15",
+    "abstract-logging": "^2.0.1",
+    "fastify": "^4.26.2",
+    "fastify-plugin": "^4.5.1",
     "pino": "^8.19.0",
     "short-uuid": "^4.2.2"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.136",
+    "@types/node": "^20.11.25",
     "@types/pino": "^7.0.5"
   }
 }
