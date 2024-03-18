@@ -4,7 +4,7 @@ import {
 } from "adapters/repositories/users/repository";
 import { User } from "domain/entities/user/user";
 import { Email } from "domain/models/email";
-import { ApplicationContext } from "utils/types";
+import { ApplicationContext } from "packages/app-ctx/app-ctx";
 
 export class CreateUserCommandFactory {
   instance(ctx: ApplicationContext) {
