@@ -1,10 +1,21 @@
 import fastify from "fastify";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { GetUserByIdQuery } from "domain/use-cases/queries/get-user-by-id-command";
+import { GetUserRoute } from "./routes/v1/users/{userId}/get";
+import { CreateUserRoute } from "./routes/v1/users/post";
 
-export type FastifyService = ReturnType<typeof startServer>;
+export type ServiceFastifyInstance = ReturnType<
+  typeof BaseFastifyInstanceFactory
+>;
+
+export const BaseFastifyInstanceFactory = () => {
+  return fastify().withTypeProvider<TypeBoxTypeProvider>();
+};
 
 export const startServer = () => {
-  const app = fastify().withTypeProvider<TypeBoxTypeProvider>();
+  const app = BaseFastifyInstanceFactory()
+    .register(GetUserRoute)
+    .register(CreateUserRoute);
 
   return app;
 };
