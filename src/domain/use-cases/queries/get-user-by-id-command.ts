@@ -5,7 +5,7 @@ import {
 import { ApplicationContext } from "utils/types";
 
 export class GetUserByIdQuery {
-  users: UserRepository;
+  users;
   logger;
 
   constructor(ctx: ApplicationContext) {

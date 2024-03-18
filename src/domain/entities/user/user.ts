@@ -1,16 +1,5 @@
-import { Static, Type as T } from "@sinclair/typebox";
 import { Email } from "domain/models/email";
 import shortUUID from "short-uuid";
-
-export const UserTypeSchema = T.Object({
-  id: T.String(),
-  name: T.String(),
-  email: T.String({ format: "email" }),
-  createdAt: T.String(),
-  updatedAt: T.String(),
-});
-
-export type UserDTO = Static<typeof UserTypeSchema>;
 
 export class User {
   readonly id: string;
@@ -33,11 +22,11 @@ export class User {
     this.updatedAt = props.updatedAt ?? new Date();
   }
 
-  serialize(): UserDTO {
+  serialize() {
     return {
       id: this.id,
       name: this.name,
-      email: this.email.value,
+      email: this.email,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
     };

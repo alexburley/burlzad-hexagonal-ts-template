@@ -1,4 +1,4 @@
-import pino, { BaseLogger } from "pino";
+import pino from "pino";
 
 export const LoggerFactory = () => pino();
-export type Logger = BaseLogger
+export type Logger = ReturnType<typeof LoggerFactory>;
