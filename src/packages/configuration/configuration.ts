@@ -5,7 +5,7 @@ export type ServiceConfiguration = {
 export class ConfigurationFactory {
   private config?: ServiceConfiguration;
 
-  async instance() {
+  instance() {
     if (this.config) {
       return this.config;
     }

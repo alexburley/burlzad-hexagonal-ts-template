@@ -4,13 +4,23 @@ import {
 } from "adapters/repositories/users/repository";
 import { ApplicationContext } from "utils/types";
 
-export class GetUserByIdQuery {
+export class GetUserByIdQueryFactory {
+  instance(ctx: ApplicationContext) {
+    return new GetUserByIdQuery(ctx, { users: new InMemoryUserRepository() });
+  }
+}
+
+export type CreateUserCommandDeps = {
   users: UserRepository;
+};
+
+export class GetUserByIdQuery {
+  users;
   logger;
 
-  constructor(ctx: ApplicationContext) {
+  constructor(ctx: ApplicationContext, deps: CreateUserCommandDeps) {
     this.logger = ctx.logger;
-    this.users = new InMemoryUserRepository();
+    this.users = deps.users;
   }
 
   async execute(id: string) {

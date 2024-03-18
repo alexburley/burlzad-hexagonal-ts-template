@@ -1,11 +1,36 @@
-import { APIGatewayProxyEventV2, Context } from "aws-lambda";
-import { GetUserByIdQuery } from "domain/use-cases/queries/get-user-by-id-command";
+import { Type as T } from "@sinclair/typebox";
+import { UserTypeSchema } from "domain/entities/user/user";
+import {
+  GetUserByIdQuery,
+  GetUserByIdQueryFactory,
+} from "domain/use-cases/queries/get-user-by-id-command";
+import { FastifyService } from "handlers/rest/fastify";
 
-export const handler = async (event: APIGatewayProxyEventV2, ctx: Context) => {
-  const { userId } = event.pathParameters;
-  const user = await new GetUserByIdQuery().execute(userId);
-  return {
-    statusCode: 200,
-    body: user.serialize(),
-  };
+export const GetUserRoute = (fastify: FastifyService) => {
+  fastify.get(
+    "/v1/users/:userId",
+    {
+      schema: {
+        params: T.Object({
+          userId: T.String({ format: "email" }),
+        }),
+        response: {
+          200: {
+            result: UserTypeSchema,
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const query = new GetUserByIdQueryFactory().instance(fastify.appCtx);
+      const user = await query.execute(request.params.userId);
+
+      return {
+        statusCode: 200,
+        body: {
+          result: user.serialize(),
+        },
+      };
+    }
+  );
 };

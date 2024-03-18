@@ -1,7 +1,10 @@
 import { Type as T } from "@sinclair/typebox";
 import { UserTypeSchema } from "domain/entities/user/user";
 import { Email } from "domain/models/email";
-import { CreateUserCommand, CreateUserCommandFactory } from "domain/use-cases/commands/create-user-command";
+import {
+  CreateUserCommand,
+  CreateUserCommandFactory,
+} from "domain/use-cases/commands/create-user-command";
 import { FastifyService } from "handlers/rest/fastify";
 
 export const CreateUserRoute = (fastify: FastifyService) => {
@@ -15,13 +18,13 @@ export const CreateUserRoute = (fastify: FastifyService) => {
         }),
         response: {
           200: {
-            result: UserTypeSchema
+            result: UserTypeSchema,
           },
         },
       },
     },
     async (request, reply) => {
-      const command = new CreateUserCommandFactory().instance()
+      const command = new CreateUserCommandFactory().instance(fastify.appCtx);
       const user = await command.execute({
         name: request.body.name,
         email: new Email(request.body.email),

@@ -22,6 +22,8 @@
     "moduleResolution": "NodeNext", // Best option for compiling for node
     "module": "NodeNext",
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types/*"],
+    "declaration": true
   }
 }
