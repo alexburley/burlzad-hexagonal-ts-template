@@ -5,7 +5,7 @@ import {
   CreateUserCommand,
   CreateUserCommandFactory,
 } from "domain/use-cases/commands/create-user-command";
-import { FastifyService } from "handlers/fastify/fastify";
+import { FastifyService } from "handlers/fastify/server";
 
 export const CreateUserRoute = (fastify: FastifyService) => {
   fastify.post(

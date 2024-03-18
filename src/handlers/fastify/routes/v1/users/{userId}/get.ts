@@ -4,7 +4,7 @@ import {
   GetUserByIdQuery,
   GetUserByIdQueryFactory,
 } from "domain/use-cases/queries/get-user-by-id-command";
-import { FastifyService } from "handlers/fastify/fastify";
+import { FastifyService } from "handlers/fastify/server";
 
 export const GetUserRoute = (fastify: FastifyService) => {
   fastify.get(
