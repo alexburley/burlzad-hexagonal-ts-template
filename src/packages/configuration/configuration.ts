@@ -1,17 +1,17 @@
 export type ServiceConfiguration = {
-  serviceName: string;
-};
+  serviceName: string
+}
 
 export class ConfigurationFactory {
-  private config?: ServiceConfiguration;
+  private config?: ServiceConfiguration
 
   instance() {
     if (this.config) {
-      return this.config;
+      return this.config
     }
 
     return {
-      serviceName: "development-service",
-    };
+      serviceName: 'development-service',
+    }
   }
 }

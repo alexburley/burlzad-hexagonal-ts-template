@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -19,9 +20,18 @@
     "short-uuid": "^4.2.2"
   },
   "devDependencies": {
+    "@eslint/js": "^8.57.0",
     "@types/aws-lambda": "^8.10.136",
+    "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.11.25",
     "@types/pino": "^7.0.5",
-    "ts-node": "^10.9.2"
+    "@typescript-eslint/eslint-plugin": "^7.3.0",
+    "@typescript-eslint/parser": "^7.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
+    "typescript-eslint": "^7.3.0"
   }
 }

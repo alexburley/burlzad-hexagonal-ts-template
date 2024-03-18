@@ -1,5 +1,4 @@
-import fastify from "fastify";
-import { startServer } from "./server";
-const awsLambdaFastify = require("@fastify/aws-lambda");
+import { startServer } from './server'
+import awsLambdaFastify from '@fastify/aws-lambda'
 
-export const handler = awsLambdaFastify(startServer());
+export const handler = awsLambdaFastify(startServer())
