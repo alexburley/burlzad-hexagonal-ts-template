@@ -1,10 +1,10 @@
 import {
   InMemoryUserRepository,
   UserRepository,
-} from 'adapters/repositories/users/repository'
-import { User } from 'domain/entities/user/user'
-import { Email } from 'domain/models/email'
-import { ApplicationContext } from 'packages/app-ctx/app-ctx'
+} from '../../../adapters/repositories/users/repository'
+import { User } from '../../../domain/entities/user/user'
+import { Email } from '../../../domain/models/email'
+import { ApplicationContext } from '../../../packages/app-ctx/app-ctx'
 
 export class CreateUserCommandFactory {
   instance(ctx: ApplicationContext) {

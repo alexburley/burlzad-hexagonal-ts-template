@@ -1,10 +1,17 @@
 import { Type as T } from '@sinclair/typebox'
-import { UserTypeSchema } from 'domain/entities/user/user'
-import { Email } from 'domain/models/email'
-import { CreateUserCommandFactory } from 'domain/use-cases/commands/create-user-command'
-import { ServiceFastifyInstance } from 'handlers/fastify/server'
+import {
+  UserDTO,
+  UserTypeSchema,
+} from '../../../../../domain/entities/user/user'
+import { Email } from '../../../../../domain/models/email'
+import { CreateUserCommandFactory } from '../../../../../domain/use-cases/commands/create-user-command'
+import { ServiceFastifyInstance } from '../../../../../handlers/fastify/server'
 
-export const CreateUserRoute = (fastify: ServiceFastifyInstance) => {
+export type CreateUserResponse = {
+  result: UserDTO
+}
+
+export const CreateUserRoute = async (fastify: ServiceFastifyInstance) =>
   fastify.post(
     '/v1/users',
     {
@@ -20,7 +27,7 @@ export const CreateUserRoute = (fastify: ServiceFastifyInstance) => {
         },
       },
     },
-    async request => {
+    async (request): Promise<CreateUserResponse> => {
       const command = new CreateUserCommandFactory().instance(fastify.appCtx)
       const user = await command.execute({
         name: request.body.name,
@@ -28,11 +35,7 @@ export const CreateUserRoute = (fastify: ServiceFastifyInstance) => {
       })
 
       return {
-        statusCode: 200,
-        body: {
-          result: user.serialize(),
-        },
+        result: user.serialize(),
       }
     },
   )
-}

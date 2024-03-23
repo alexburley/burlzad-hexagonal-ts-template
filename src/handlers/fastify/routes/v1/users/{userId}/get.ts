@@ -1,9 +1,9 @@
 import { Type as T } from '@sinclair/typebox'
-import { UserTypeSchema } from 'domain/entities/user/user'
-import { GetUserByIdQueryFactory } from 'domain/use-cases/queries/get-user-by-id-command'
-import { ServiceFastifyInstance } from 'handlers/fastify/server'
+import { UserTypeSchema } from '../../../../../../domain/entities/user/user'
+import { GetUserByIdQueryFactory } from '../../../../../../domain/use-cases/queries/get-user-by-id-command'
+import { ServiceFastifyInstance } from '../../../../../../handlers/fastify/server'
 
-export const GetUserRoute = (fastify: ServiceFastifyInstance) => {
+export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
   fastify.get(
     '/v1/users/:userId',
     {
@@ -30,4 +30,3 @@ export const GetUserRoute = (fastify: ServiceFastifyInstance) => {
       }
     },
   )
-}

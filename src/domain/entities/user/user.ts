@@ -1,6 +1,6 @@
 import { Static, Type as T } from '@sinclair/typebox'
-import { Email } from 'domain/models/email'
 import shortUUID from 'short-uuid'
+import { Email } from '../../../domain/models/email'
 
 export const UserTypeSchema = T.Object({
   id: T.String(),

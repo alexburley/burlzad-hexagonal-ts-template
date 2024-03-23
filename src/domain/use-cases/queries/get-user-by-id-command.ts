@@ -1,8 +1,8 @@
 import {
   InMemoryUserRepository,
   UserRepository,
-} from 'adapters/repositories/users/repository'
-import { ApplicationContext } from 'packages/app-ctx/app-ctx'
+} from '../../../adapters/repositories/users/repository'
+import { ApplicationContext } from '../../../packages/app-ctx/app-ctx'
 
 export class GetUserByIdQueryFactory {
   instance(ctx: ApplicationContext) {

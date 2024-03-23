@@ -1,4 +1,4 @@
-import { startServer } from './server'
+import { APIFactory } from './server'
 import awsLambdaFastify from '@fastify/aws-lambda'
 
-export const handler = awsLambdaFastify(startServer())
+export const handler = awsLambdaFastify(APIFactory())

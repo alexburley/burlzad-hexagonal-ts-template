@@ -1,4 +1,4 @@
-import { User } from 'domain/entities/user/user'
+import { User } from '../../../domain/entities/user/user'
 
 export type UserRepository = {
   getById(id: string): Promise<User>
