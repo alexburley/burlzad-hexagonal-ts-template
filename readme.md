@@ -4,6 +4,10 @@ This repository provides a template for setting up a Node.js project with TypeSc
 
 It features the following:
 
-- A fastify server on a lambdalith
-- Leans on `testcontainers` for integration tests against a local DB
-- CDK for deploying the lambdalith to AWS
+- A `fastify` server on an AWS lambdalith
+- Unit testing with `tap`
+- Integration testing with `testcontainers`
+- Logging with `pino`
+- `aws-cdk` for deploying the lambdalith to AWS
+- GitHub actions workflow for CI/CD
+
