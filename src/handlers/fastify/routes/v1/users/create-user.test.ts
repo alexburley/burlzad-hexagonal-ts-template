@@ -1,10 +1,19 @@
-import t from 'tap'
+import test from 'node:test'
+import assert from 'node:assert'
 import { APIFactory } from '../../../server'
+import { FastifyInstance } from 'fastify'
 
-t.test('should create a user', async t => {
-  const server = APIFactory()
-  t.teardown(() => server.close())
+let server: FastifyInstance
 
+test.before(() => {
+  server = APIFactory()
+})
+
+test.after(() => {
+  server.close()
+})
+
+test('should create a user', async () => {
   const response = await server.inject({
     method: 'POST',
     url: '/v1/users',
@@ -14,11 +23,14 @@ t.test('should create a user', async t => {
     },
   })
 
-  t.equal(response.statusCode, 200)
-  t.equal(response.headers['content-type'], 'application/json; charset=utf-8')
-  t.type(response.json().result.id, 'string')
-  t.equal(response.json().result.name, 'John Doe')
-  t.equal(response.json().result.email, 'john@mail.com')
-  t.type(response.json().result.createdAt, 'string')
-  t.type(response.json().result.updatedAt, 'string')
+  assert.equal(response.statusCode, 200)
+  assert.equal(
+    response.headers['content-type'],
+    'application/json; charset=utf-8',
+  )
+  assert.equal(typeof response.json().result.id, 'string')
+  assert.equal(typeof response.json().result.createdAt, 'string')
+  assert.equal(typeof response.json().result.updatedAt, 'string')
+  assert.equal(response.json().result.name, 'John Doe')
+  assert.equal(response.json().result.email, 'john@mail.com')
 })
