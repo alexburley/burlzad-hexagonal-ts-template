@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --import tsx --test src/**/*.test.ts",
     "build": "tsc -p tsconfig.json",
     "lint": "eslint ."
   },
@@ -29,6 +29,7 @@
     "@typescript-eslint/parser": "^7.3.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "expect": "^29.7.0",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",

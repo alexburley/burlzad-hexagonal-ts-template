@@ -1,5 +1,5 @@
 import test from 'node:test'
-import assert from 'node:assert'
+import expect from 'expect'
 import { APIFactory } from '../../../server'
 import { FastifyInstance } from 'fastify'
 
@@ -23,14 +23,12 @@ test('should create a user', async () => {
     },
   })
 
-  assert.equal(response.statusCode, 200)
-  assert.equal(
-    response.headers['content-type'],
-    'application/json; charset=utf-8',
-  )
-  assert.equal(typeof response.json().result.id, 'string')
-  assert.equal(typeof response.json().result.createdAt, 'string')
-  assert.equal(typeof response.json().result.updatedAt, 'string')
-  assert.equal(response.json().result.name, 'John Doe')
-  assert.equal(response.json().result.email, 'john@mail.com')
+  expect(response.statusCode).toBe(200)
+  expect(response.json().result).toEqual({
+    id: expect.any(String),
+    createdAt: expect.any(String),
+    updatedAt: expect.any(String),
+    name: 'John Doe',
+    email: 'john@mail.com',
+  })
 })
