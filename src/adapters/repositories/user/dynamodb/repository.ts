@@ -31,7 +31,7 @@ export class UserDynamoDBRepository implements UserRepository {
   async getById(id: string) {
     const { data } = await this.schema
       .get({ id, sk: 'USER#' })
-      .where(({ _deleted }, { exists }) => `${exists(_deleted)}}`)
+      .where(({ _deleted }, { notExists }) => `${notExists(_deleted)}}`)
       .go()
 
     if (!data) {
@@ -48,7 +48,11 @@ export class UserDynamoDBRepository implements UserRepository {
   }
 
   async list() {
-    const { data } = await this.schema.query.collection({ sk: 'USER#' }).go()
+    const { data } = await this.schema.query
+      .collection({ sk: 'USER#' })
+      .where(({ _deleted }, { notExists }) => `${notExists(_deleted)}}`)
+      .go()
+
     const collection = data.map(record => {
       return new User({
         id: record.id,

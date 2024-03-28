@@ -6,6 +6,7 @@ export type ServiceConfiguration = {
     region: string
     ddb: {
       identityTableName: string
+      endpoint: string
     }
   }
 }
@@ -26,6 +27,7 @@ export class ConfigurationFactory {
         region: 'eu-west-1',
         ddb: {
           identityTableName: 'default-identity-table-name',
+          endpoint: 'http://localhost:4567',
         },
       },
     }
