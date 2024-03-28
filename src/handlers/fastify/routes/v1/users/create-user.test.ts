@@ -1,19 +1,31 @@
-import test from 'node:test'
-import expect from 'expect'
 import { APIFactory } from '../../../server'
 import { FastifyInstance } from 'fastify'
+import { mock } from 'jest-mock-extended'
+import {
+  CreateUserCommand,
+  CreateUserCommandFactory,
+} from '../../../../../domain/use-cases/commands/create-user-command'
+import { UserDummy } from '../../../../../domain/entities/test/dummy'
+import { Email } from '../../../../../domain/models/email'
 
 let server: FastifyInstance
 
-test.before(() => {
+const command = mock<CreateUserCommand>()
+jest
+  .spyOn(CreateUserCommandFactory.prototype, 'instance')
+  .mockReturnValue(command)
+
+beforeAll(async () => {
   server = APIFactory()
+  await server.ready()
 })
 
-test.after(() => {
+afterAll(() => {
   server.close()
 })
 
 test('should create a user', async () => {
+  command.execute.mockResolvedValue(UserDummy())
   const response = await server.inject({
     method: 'POST',
     url: '/v1/users',
@@ -22,13 +34,10 @@ test('should create a user', async () => {
       email: 'john@mail.com',
     },
   })
-
-  expect(response.statusCode).toBe(200)
-  expect(response.json().result).toEqual({
-    id: expect.any(String),
-    createdAt: expect.any(String),
-    updatedAt: expect.any(String),
+  expect(command.execute).toHaveBeenCalledWith({
     name: 'John Doe',
-    email: 'john@mail.com',
+    email: new Email('john@mai.com'),
   })
+  expect(response.statusCode).toBe(200)
+  expect(response.json()).toEqual({ result: UserDummy().serialize() })
 })

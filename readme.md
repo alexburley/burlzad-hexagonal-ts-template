@@ -10,3 +10,4 @@ It features the following:
 - Logging with `pino`
 - `aws-cdk` for deploying the lambdalith to AWS
 - GitHub actions workflow for CI/CD
+- Add TS5.4 and import paths

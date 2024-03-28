@@ -12,6 +12,14 @@ export const UserTypeSchema = T.Object({
 
 export type UserDTO = Static<typeof UserTypeSchema>
 
+export type UserProps = {
+  id?: string
+  name: string
+  email: Email
+  createdAt?: Date
+  updatedAt?: Date
+}
+
 export class User {
   readonly id: string
   readonly name: string
@@ -19,13 +27,7 @@ export class User {
   readonly createdAt: Date
   readonly updatedAt: Date
 
-  constructor(props: {
-    id?: string
-    name: string
-    email: Email
-    createdAt?: Date
-    updatedAt?: Date
-  }) {
+  constructor(props: UserProps) {
     this.id = props.id ?? `user_${shortUUID.generate()}`
     this.name = props.name
     this.email = props.email
