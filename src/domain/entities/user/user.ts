@@ -7,7 +7,7 @@ export const UserTypeSchema = T.Object({
   name: T.String(),
   email: T.String({ format: 'email' }),
   createdAt: T.String(),
-  updatedAt: T.String(),
+  modifiedAt: T.String(),
 })
 
 export type UserDTO = Static<typeof UserTypeSchema>
@@ -17,7 +17,7 @@ export type UserProps = {
   name: string
   email: Email
   createdAt?: Date
-  updatedAt?: Date
+  modifiedAt?: Date
 }
 
 export class User {
@@ -25,14 +25,14 @@ export class User {
   readonly name: string
   readonly email: Email
   readonly createdAt: Date
-  readonly updatedAt: Date
+  readonly modifiedAt: Date
 
   constructor(props: UserProps) {
     this.id = props.id ?? `user_${shortUUID.generate()}`
     this.name = props.name
     this.email = props.email
     this.createdAt = props.createdAt ?? new Date()
-    this.updatedAt = props.updatedAt ?? new Date()
+    this.modifiedAt = props.modifiedAt ?? new Date()
   }
 
   serialize(): UserDTO {
@@ -41,7 +41,7 @@ export class User {
       name: this.name,
       email: this.email.value,
       createdAt: this.createdAt.toISOString(),
-      updatedAt: this.updatedAt.toISOString(),
+      modifiedAt: this.modifiedAt.toISOString(),
     }
   }
 }

@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.540.0",
     "@fastify/aws-lambda": "^4.0.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.15",
+    "electrodb": "^2.13.1",
     "fastify": "^4.26.2",
     "fastify-plugin": "^4.5.1",
     "pino": "^8.19.0",
@@ -43,7 +45,7 @@
     "typescript-eslint": "^7.3.0"
   },
   "imports": {
-    "#packages/*": "./src/packages/*",
+    "#lib/*": "./src/lib/*",
     "#handlers/*": "./src/handlers/*",
     "#domain/*": "./src/domain/*",
     "#adapters/*": "./src/adapters/*",

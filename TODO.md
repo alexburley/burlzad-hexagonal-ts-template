@@ -8,3 +8,4 @@ Inspo https://github.com/leegilmorecode/clean-serverless-code-part-2/blob/main/o
 - Add readmes full of best practices
 - No dependencies
 - 011y
+- Subpath imports Waiting for https://github.com/microsoft/TypeScript/pull/57718 to compelte

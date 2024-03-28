@@ -1,11 +1,5 @@
-import { User } from '../../../domain/entities/user/user'
-
-export type UserRepository = {
-  getById(id: string): Promise<User>
-  list(): Promise<User[]>
-  delete(id: string): Promise<void>
-  persist(user: User): Promise<void>
-}
+import { User } from '../../../../../domain/entities/user/user'
+import { UserRepository } from '../..'
 
 export class InMemoryUserRepository implements UserRepository {
   private users: User[] = []
@@ -15,7 +9,7 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async list() {
-    return this.users
+    return { collection: this.users }
   }
 
   async delete(id: string) {

@@ -1,4 +1,4 @@
-import { ApplicationContext } from '../packages/app-ctx/app-ctx'
+import { ApplicationContext } from '../lib/app-ctx/app-ctx'
 
 declare module 'fastify' {
   interface FastifyInstance {
