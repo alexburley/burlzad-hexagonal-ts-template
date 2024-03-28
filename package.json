@@ -41,5 +41,12 @@
     "tsx": "^4.7.1",
     "typescript": "^5.4.2",
     "typescript-eslint": "^7.3.0"
+  },
+  "imports": {
+    "#packages/*": "./src/packages/*",
+    "#handlers/*": "./src/handlers/*",
+    "#domain/*": "./src/domain/*",
+    "#adapters/*": "./src/adapters/*",
+    "#routes/*": "./src/handlers/fastify/routes*"
   }
 }
