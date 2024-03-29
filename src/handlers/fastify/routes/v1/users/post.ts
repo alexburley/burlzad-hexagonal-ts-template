@@ -4,8 +4,8 @@ import {
   UserTypeSchema,
 } from '../../../../../domain/entities/user/user'
 import { Email } from '../../../../../domain/models/email'
-import { CreateUserCommandFactory } from '../../../../../domain/use-cases/commands/create-user-command'
-import { ServiceFastifyInstance } from '../../../../../handlers/fastify/server'
+import { CreateUserCommandFactory } from '../../../../../domain/use-cases/commands/create-user/command'
+import { ServiceFastifyInstance } from '../../../api'
 
 export type CreateUserResponse = {
   result: UserDTO

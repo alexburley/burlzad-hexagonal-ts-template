@@ -1,7 +1,7 @@
 import { Type as T } from '@sinclair/typebox'
 import { UserTypeSchema } from '../../../../../../domain/entities/user/user'
-import { GetUserByIdQueryFactory } from '../../../../../../domain/use-cases/queries/get-user-by-id-command'
-import { ServiceFastifyInstance } from '../../../../../../handlers/fastify/server'
+import { GetUserByIdQueryFactory } from '../../../../../../domain/use-cases/queries/get-user-by-id/query'
+import { ServiceFastifyInstance } from '../../../../api'
 
 export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
   fastify.get(
@@ -9,7 +9,7 @@ export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
     {
       schema: {
         params: T.Object({
-          userId: T.String({ format: 'email' }),
+          userId: T.String(),
         }),
         response: {
           200: {
@@ -23,10 +23,7 @@ export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
       const user = await query.execute(request.params.userId)
 
       return {
-        statusCode: 200,
-        body: {
-          result: user.serialize(),
-        },
+        result: user.serialize(),
       }
     },
   )

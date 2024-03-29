@@ -6,8 +6,9 @@ import { UserDynamoDBRepositoryFactory } from './repository'
 const appCtx = TestAppCtx()
 const repository = new UserDynamoDBRepositoryFactory().instance(appCtx)
 
-// Must run first
 test('list() should return an empty collection', async () => {
+  jest.spyOn(repository.schema, 'query').mockResolvedValue({ $metadata: {} })
+
   const result = await repository.list()
 
   expect(result).toEqual({ collection: [] })
