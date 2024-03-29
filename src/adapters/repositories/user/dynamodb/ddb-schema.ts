@@ -11,6 +11,7 @@ export const UserSchemaFactory = (table: string, client: DocumentClient) =>
       attributes: {
         id: {
           type: 'string',
+          required: true,
         },
         sk: {
           type: 'string',
@@ -39,11 +40,11 @@ export const UserSchemaFactory = (table: string, client: DocumentClient) =>
       indexes: {
         user: {
           pk: {
-            field: 'pk',
+            field: 'PK',
             composite: ['id'],
           },
           sk: {
-            field: 'sk',
+            field: 'SK',
             composite: ['sk'],
           },
         },

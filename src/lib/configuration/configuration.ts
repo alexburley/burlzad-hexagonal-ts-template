@@ -7,6 +7,7 @@ export type ServiceConfiguration = {
     ddb: {
       identityTableName: string
       endpoint: string
+      gsi1SK_PK: string
     }
   }
 }
@@ -27,7 +28,8 @@ export class ConfigurationFactory {
         region: 'eu-west-1',
         ddb: {
           identityTableName: 'default-identity-table-name',
-          endpoint: 'http://localhost:4567',
+          endpoint: 'http://localhost:4580',
+          gsi1SK_PK: 'gsi1-sk-pk',
         },
       },
     }

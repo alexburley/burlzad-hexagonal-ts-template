@@ -1,5 +1,5 @@
 import { UserRepository } from '../../../adapters/repositories/user'
-import { InMemoryUserRepository } from 'adapters/repositories/user/test/in-memory/repository'
+import { InMemoryUserRepository } from '../../../adapters/repositories/user/test/in-memory/repository'
 import { User } from '../../../domain/entities/user/user'
 import { Email } from '../../../domain/models/email'
 import { ApplicationContext } from '../../../lib/app-ctx/app-ctx'
