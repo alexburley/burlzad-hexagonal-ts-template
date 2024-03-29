@@ -9,7 +9,7 @@
     "allowJs": true, // Allow JS files to be compiled
     "resolveJsonModule": true, // Import JSON files
     "moduleDetection": "force", // Avoid https://www.totaltypescript.com/cannot-redeclare-block-scoped-variable errors
-    "isolatedModules": true, // This option prevents a few TS features which are unsafe
+    "isolatedModules": true, // This option prevents a few TS features which are unsafe,
 
     /* Strictness */
     "strict": true, // Enables all strict type checking options
@@ -19,8 +19,7 @@
     "lib": ["es2022"],
 
     /* Transpiling: */
-    "moduleResolution": "NodeNext", // Best option for compiling for node
-    "module": "NodeNext",
+    "moduleResolution": "Node", // Needed for dynamodbdb toolbox
     "outDir": "dist",
     "sourceMap": true,
     "typeRoots": ["./node_modules/@types", "./src/@types/*"],

@@ -15,7 +15,7 @@
     "@fastify/aws-lambda": "^4.0.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.15",
-    "electrodb": "^2.13.1",
+    "dynamodb-toolbox": "^0.9.2",
     "fastify": "^4.26.2",
     "fastify-plugin": "^4.5.1",
     "pino": "^8.19.0",
