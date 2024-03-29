@@ -36,7 +36,7 @@ test('should create a user', async () => {
   })
   expect(command.execute).toHaveBeenCalledWith({
     name: 'John Doe',
-    email: new Email('john@mai.com'),
+    email: new Email('john@mail.com'),
   })
   expect(response.statusCode).toBe(200)
   expect(response.json()).toEqual({ result: UserDummy().serialize() })

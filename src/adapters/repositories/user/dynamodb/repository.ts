@@ -4,6 +4,7 @@ import { Email } from '../../../../domain/models/email'
 import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
 
 import { ServiceDynamoDBClient } from '../../../../lib/clients/dynamodb/dynamodb'
+import { UserNotFoundError } from '../errors'
 import { UserSchemaFactory, UserSchemaDDB } from './ddb-schema'
 
 export class UserDynamoDBRepositoryFactory {
@@ -21,7 +22,7 @@ export type UserDynamoDBRepositoryDeps = {
   pk_skIndex: string
 }
 
-export class UserDynamoDBRepository implements UserRepository {
+class UserDynamoDBRepository implements UserRepository {
   schema
   pk_skIndex
 
@@ -33,8 +34,8 @@ export class UserDynamoDBRepository implements UserRepository {
   async getById(id: string) {
     const { Item } = await this.schema.get({ id, sk: 'USER#' })
 
-    if (!Item || Item?.deletedAt) {
-      throw new Error('User not found')
+    if (!Item || Item.deletedAt) {
+      throw new UserNotFoundError(id)
     }
 
     return new User({
@@ -47,10 +48,9 @@ export class UserDynamoDBRepository implements UserRepository {
   }
 
   async list() {
-    const { Items = [] } = await this.schema.query({
+    const { Items = [] } = await this.schema.query('USER#', {
       index: this.pk_skIndex,
-      sk: 'USER#',
-      filters: [{ attr: 'deletedAt', eq: undefined }],
+      filters: [{ attr: 'deletedAt', exists: false }],
     })
 
     const collection = Items.map(i => {
@@ -70,6 +70,7 @@ export class UserDynamoDBRepository implements UserRepository {
     await this.schema.update(
       {
         id,
+        deletedAt: new Date().toISOString(),
       },
       {
         conditions: { attr: 'id', exists: true },

@@ -6,8 +6,8 @@ export const UserDummy = (partial: Partial<UserProps> = {}): User => {
     id: 'user_1',
     name: 'John Doe',
     email: new Email('john@mail.com'),
-    createdAt: new Date(1),
-    modifiedAt: new Date(1),
+    createdAt: new Date(),
+    modifiedAt: new Date(),
     ...partial,
   })
 }
