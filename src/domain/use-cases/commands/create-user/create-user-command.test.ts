@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended'
-import { TestAppCtx } from '../../../../test/integration-test-manager'
+import { TestAppCtx } from '../../../../test/test-manager'
 import { CreateUserCommand } from './command'
 import { UserRepository } from '../../../../adapters/repositories/user'
 import { Email } from '../../../models/email'

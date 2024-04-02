@@ -1,7 +1,7 @@
-import { IntegrationEnvironment } from './integration-test-manager'
+import { TestEnvironment } from './test-manager'
 
 const teardown = async () => {
-  await IntegrationEnvironment().down()
+  await TestEnvironment().down()
 }
 
 export default teardown

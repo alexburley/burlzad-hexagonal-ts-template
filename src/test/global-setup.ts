@@ -1,7 +1,7 @@
-import { IntegrationEnvironment } from './integration-test-manager'
+import { TestEnvironment } from './test-manager'
 
 export const setup = async () => {
-  await IntegrationEnvironment().up()
+  await TestEnvironment().up()
   process.env.INTEGRATION_ENVIRONMENT_READY = 'true'
 }
 

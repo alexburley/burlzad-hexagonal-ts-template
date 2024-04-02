@@ -1,6 +1,6 @@
 import { Email } from '../../../../../../domain/models/email'
 import { CreateUserCommandFactory } from '../../../../../../domain/use-cases/commands/create-user/command'
-import { TestAppCtx } from '../../../../../../test/integration-test-manager'
+import { TestAppCtx } from '../../../../../../test/test-manager'
 import { testServer } from '../../../../../../test/setup-after-env'
 
 const createUser = new CreateUserCommandFactory().instance(TestAppCtx())

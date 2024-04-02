@@ -25,9 +25,10 @@ export const TestAppCtx = (): ApplicationContext => {
  * This class is responsible for spinning up the necessary resources to run
  * integration tests
  */
-class IntegrationEnvironmentManager {
+class TestEnvironmentManager {
   /** Testcontainers docker compose environment */
   private docker: StartedDockerComposeEnvironment | null = null
+  private dynamodbReady: boolean = false
 
   /**
    * Spins up a testcontainers docker environment and provisions it
@@ -41,6 +42,7 @@ class IntegrationEnvironmentManager {
   async up() {
     this.docker = await this._startDocker()
     await this._provisionDynamoDB(TestAppCtx())
+    this.dynamodbReady
   }
 
   /**
@@ -137,8 +139,9 @@ class IntegrationEnvironmentManager {
   }
 }
 
-let manager: IntegrationEnvironmentManager
-export const IntegrationEnvironment = () => {
-  if (!manager) manager = new IntegrationEnvironmentManager()
+let manager: TestEnvironmentManager
+
+export const TestEnvironment = () => {
+  if (!manager) manager = new TestEnvironmentManager()
   return manager
 }

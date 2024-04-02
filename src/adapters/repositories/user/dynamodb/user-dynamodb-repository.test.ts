@@ -1,5 +1,5 @@
 import { UserDummy } from '../../../../domain/entities/test/dummy'
-import { TestAppCtx } from '../../../../test/integration-test-manager'
+import { TestAppCtx } from '../../../../test/test-manager'
 import { UserNotFoundError } from '../errors'
 import { UserDynamoDBRepositoryFactory } from './repository'
 
