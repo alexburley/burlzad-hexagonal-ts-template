@@ -14,6 +14,7 @@ const config: Config.InitialOptions = {
   },
 
   collectCoverage: true,
+  testPathIgnorePatterns: ['/node_modules/', 'dist/', 'scripts/'],
   coveragePathIgnorePatterns: ['/node_modules/', 'test/', 'scripts/'],
 
   globalSetup: '<rootDir>/src/test/global-setup.ts',

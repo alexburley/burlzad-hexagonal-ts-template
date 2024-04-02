@@ -1,7 +1,7 @@
 import { TestEnvironment } from './test-manager'
 
 export const setup = async () => {
-  await TestEnvironment().up()
+  await TestEnvironment().provisionDynamoDB()
   process.env.INTEGRATION_ENVIRONMENT_READY = 'true'
 }
 

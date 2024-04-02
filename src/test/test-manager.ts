@@ -1,8 +1,5 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
-import {
-  DockerComposeEnvironment,
-  StartedDockerComposeEnvironment,
-} from 'testcontainers'
+import { GenericContainer, StartedTestContainer } from 'testcontainers'
 import { ApplicationContext } from '../lib/app-ctx/app-ctx'
 import { wait } from '../lib/promises/promises'
 import { ConfigurationFactory } from '../lib/configuration/configuration'
@@ -26,9 +23,8 @@ export const TestAppCtx = (): ApplicationContext => {
  * integration tests
  */
 class TestEnvironmentManager {
-  /** Testcontainers docker compose environment */
-  private docker: StartedDockerComposeEnvironment | null = null
-  private dynamodbReady: boolean = false
+  /** Testcontainer */
+  private localstack: StartedTestContainer | null = null
 
   /**
    * Spins up a testcontainers docker environment and provisions it
@@ -39,10 +35,9 @@ class TestEnvironmentManager {
    * @see https://jestjs.io/docs/en/configuration#globalsetup-string
    *
    */
-  async up() {
-    this.docker = await this._startDocker()
+  async provisionDynamoDB() {
+    this.localstack = await this._startLocalStack()
     await this._provisionDynamoDB(TestAppCtx())
-    this.dynamodbReady
   }
 
   /**
@@ -53,16 +48,31 @@ class TestEnvironmentManager {
    *
    */
   async down() {
-    if (this.docker) await this.docker.down({ timeout: 3000 })
+    if (this.localstack) await this.localstack.stop({ timeout: 3000 })
   }
 
-  private async _startDocker(): Promise<StartedDockerComposeEnvironment> {
+  private async _startLocalStack(): Promise<StartedTestContainer> {
     console.info('Starting docker...')
 
-    return await new DockerComposeEnvironment(
-      __dirname,
-      'docker-compose.yml',
-    ).up()
+    try {
+      const container = await new GenericContainer('localstack/localstack')
+        .withName('localstack-test-1')
+        .withCommand(['sleep', 'infinity'])
+        .withExposedPorts({
+          container: 4566,
+          host: 4580,
+        })
+        .withEnvironment({
+          DEBUG: '1',
+        })
+        .withReuse()
+        .start()
+
+      return container
+    } catch (err) {
+      console.error('Error starting docker container', err)
+      throw err
+    }
   }
 
   private async _provisionDynamoDB(appCtx: ApplicationContext): Promise<void> {
