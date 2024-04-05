@@ -1,4 +1,5 @@
 import { UserDummy } from '../../../../domain/entities/test/dummy'
+import { User } from '../../../../domain/entities/user/user'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { UserNotFoundError } from '../errors'
 import { UserDynamoDBRepositoryFactory } from './repository'
@@ -39,6 +40,25 @@ test('list() should list users', async () => {
   const result = await repository.list()
 
   expect(result).toEqual({ collection: expect.arrayContaining([user]) })
+})
+
+test('list() should paginate', async () => {
+  await repository.persist(UserDummy({ id: 'firstUser' }))
+  await repository.persist(UserDummy({ id: 'secondUser' }))
+
+  const { collection: firstCollection, cursor: firstCursor } =
+    await repository.list({
+      limit: 1,
+    })
+  const { collection: finalCollection, cursor: finalCursor } =
+    await repository.list({
+      cursor: firstCursor,
+    })
+
+  const firstUser = firstCollection[0] as User
+
+  expect(finalCollection).not.toEqual(expect.arrayContaining([firstUser]))
+  expect(finalCursor).toBeUndefined()
 })
 
 test('delete() should delete a user and exclude from the collection', async () => {

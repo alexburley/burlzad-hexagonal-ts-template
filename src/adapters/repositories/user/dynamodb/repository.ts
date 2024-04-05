@@ -1,9 +1,13 @@
-import { UserRepository } from '..'
+import { PaginationOptions, UserRepository } from '..'
 import { User } from '../../../../domain/entities/user/user'
 import { Email } from '../../../../domain/models/email'
 import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
 
-import { ServiceDynamoDBClient } from '../../../../lib/clients/dynamodb/dynamodb'
+import {
+  ServiceDynamoDBClient,
+  cursorToStartKey,
+  lastEvaluatedKeyToCursor,
+} from '../../../../lib/clients/dynamodb/dynamodb'
 import { UserNotFoundError } from '../errors'
 import { UserSchemaFactory, UserSchemaDDB } from './ddb-schema'
 
@@ -47,10 +51,13 @@ class UserDynamoDBRepository implements UserRepository {
     })
   }
 
-  async list() {
-    const { Items = [] } = await this.schema.query('USER#', {
+  async list(opts: PaginationOptions = {}) {
+    const { limit = 10, cursor: nextToken } = opts
+    const { Items = [], LastEvaluatedKey } = await this.schema.query('USER#', {
       index: this.pk_skIndex,
       filters: [{ attr: 'deletedAt', exists: false }],
+      startKey: cursorToStartKey(nextToken),
+      limit,
     })
 
     const collection = Items.map(i => {
@@ -63,7 +70,7 @@ class UserDynamoDBRepository implements UserRepository {
       })
     })
 
-    return { collection }
+    return { collection, cursor: lastEvaluatedKeyToCursor(LastEvaluatedKey) }
   }
 
   async delete(id: string) {
