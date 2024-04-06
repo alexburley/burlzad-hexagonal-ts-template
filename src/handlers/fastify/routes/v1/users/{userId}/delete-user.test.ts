@@ -5,19 +5,22 @@ import { testServer } from '../../../../../../test/setup-after-env'
 
 const createUser = new CreateUserCommandFactory().instance(TestAppCtx())
 
-test('should retrieve a user', async () => {
+test('should delete a user', async () => {
   const user = await createUser.execute({
     name: 'John Smith',
     email: new Email('john@mail.com'),
   })
 
   const response = await testServer.inject({
-    method: 'GET',
+    method: 'DELETE',
     url: `/v1/users/${user.id}`,
   })
 
-  expect(response.statusCode).toBe(200)
-  expect(response.json()).toEqual({
-    result: user.serialize(),
+  expect({
+    status: response.statusCode,
+    json: response.json(),
+  }).toEqual({
+    status: 200,
+    json: {},
   })
 })

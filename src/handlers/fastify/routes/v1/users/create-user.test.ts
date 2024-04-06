@@ -18,6 +18,8 @@ test('should create a user', async () => {
       email: 'john@mail.com',
       createdAt: '2000-01-01T00:00:00.000Z',
       modifiedAt: '2000-01-01T00:00:00.000Z',
+      status: 'ACTIVE',
+      deletedAt: null,
     },
   })
 })

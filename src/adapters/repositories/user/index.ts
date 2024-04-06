@@ -8,6 +8,5 @@ export type PaginationOptions = {
 export type UserRepository = {
   getById(id: string): Promise<User>
   list(): Promise<{ collection: User[]; cursor?: string }>
-  delete(id: string): Promise<void>
   persist(user: User): Promise<void>
 }

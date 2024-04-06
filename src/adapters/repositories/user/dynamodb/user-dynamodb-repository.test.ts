@@ -1,4 +1,7 @@
-import { UserDummy } from '../../../../domain/entities/test/dummy'
+import {
+  DeletedUserDummy,
+  UserDummy,
+} from '../../../../domain/entities/test/dummy'
 import { User } from '../../../../domain/entities/user/user'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { UserNotFoundError } from '../errors'
@@ -35,16 +38,22 @@ test('getById() should throw an error when user not found', async () => {
 
 test('list() should list users', async () => {
   const user = UserDummy()
-  await repository.persist(user)
+  const deletedUser = DeletedUserDummy()
+
+  await Promise.all([repository.persist(user), repository.persist(deletedUser)])
 
   const result = await repository.list()
 
-  expect(result).toEqual({ collection: expect.arrayContaining([user]) })
+  expect(result).toEqual({
+    collection: expect.arrayContaining([user, deletedUser]),
+  })
 })
 
 test('list() should paginate', async () => {
-  await repository.persist(UserDummy({ name: 'firstUser' }))
-  await repository.persist(UserDummy({ name: 'secondUser' }))
+  await Promise.all([
+    repository.persist(UserDummy({ name: 'firstUser' })),
+    repository.persist(UserDummy({ name: 'secondUser' })),
+  ])
 
   const { collection: firstCollection, cursor: firstCursor } =
     await repository.list({
@@ -59,26 +68,4 @@ test('list() should paginate', async () => {
 
   expect(finalCollection).not.toEqual(expect.arrayContaining([firstUser]))
   expect(finalCursor).toBeUndefined()
-})
-
-test('delete() should delete a user and exclude from the collection', async () => {
-  const user = UserDummy({ id: 'someDeletedUser' })
-
-  await repository.persist(user)
-  await repository.delete(user.id)
-
-  const result = await repository.list()
-
-  expect(result).toEqual({ collection: expect.not.arrayContaining([user]) })
-})
-
-test('delete() should delete the user and throw if the user is requested', async () => {
-  const user = UserDummy({ id: 'someDeletedUser' })
-
-  await repository.persist(user)
-  await repository.delete(user.id)
-
-  const result = await repository.getById(user.id).catch(err => err)
-
-  expect(result).toBeInstanceOf(UserNotFoundError)
 })

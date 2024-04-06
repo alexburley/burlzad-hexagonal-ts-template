@@ -1,5 +1,5 @@
 import { PaginationOptions, UserRepository } from '..'
-import { User } from '../../../../domain/entities/user/user'
+import { User, UserStatus } from '../../../../domain/entities/user/user'
 import { Email } from '../../../../domain/models/email'
 
 import {
@@ -12,6 +12,26 @@ import { UserSchemaDDB } from './ddb-schema'
 export type UserDynamoDBRepositoryDeps = {
   ddbSchema: UserSchemaDDB
   pk_skIndex: string
+}
+
+export const _UserFromDynamoDB = (Item: {
+  id: string
+  email: string
+  name: string
+  status: string
+  created: string
+  modified: string
+  deletedAt?: string
+}) => {
+  return new User({
+    id: Item.id,
+    email: new Email(Item.email),
+    name: Item.name,
+    status: Item.status as UserStatus,
+    createdAt: new Date(Item.created),
+    modifiedAt: new Date(Item.modified),
+    deletedAt: Item.deletedAt ? new Date(Item.deletedAt) : undefined,
+  })
 }
 
 export class UserDynamoDBRepository implements UserRepository {
@@ -30,47 +50,20 @@ export class UserDynamoDBRepository implements UserRepository {
       throw new UserNotFoundError(id)
     }
 
-    return new User({
-      id: Item.id,
-      email: new Email(Item.email),
-      name: Item.name,
-      createdAt: new Date(Item.created),
-      modifiedAt: new Date(Item.modified),
-    })
+    return _UserFromDynamoDB(Item)
   }
 
   async list(opts: PaginationOptions = {}) {
     const { limit = 10, cursor: nextToken } = opts
     const { Items = [], LastEvaluatedKey } = await this.schema.query('USER#', {
       index: this.pk_skIndex,
-      filters: [{ attr: 'deletedAt', exists: false }],
       startKey: cursorToStartKey(nextToken),
       limit,
     })
 
-    const collection = Items.map(i => {
-      return new User({
-        id: i.id,
-        email: new Email(i.email),
-        name: i.name,
-        createdAt: new Date(i.created),
-        modifiedAt: new Date(i.modified),
-      })
-    })
+    const collection = Items.map(_UserFromDynamoDB)
 
     return { collection, cursor: lastEvaluatedKeyToCursor(LastEvaluatedKey) }
-  }
-
-  async delete(id: string) {
-    await this.schema.update(
-      {
-        id,
-        deletedAt: new Date().toISOString(),
-      },
-      {
-        conditions: { attr: 'id', exists: true },
-      },
-    )
   }
 
   async persist(user: User) {
@@ -78,6 +71,8 @@ export class UserDynamoDBRepository implements UserRepository {
       id: user.id,
       email: user.email.value,
       name: user.name,
+      status: user.status,
+      deletedAt: user.deletedAt?.toISOString(),
       created: user.createdAt.toISOString(),
       modified: user.modifiedAt.toISOString(),
     })

@@ -9,6 +9,7 @@ export const UserSchemaFactory = (table: ServiceTable) =>
       sk: { default: 'USER#', hidden: true, sortKey: true },
       email: { type: 'string', required: true },
       name: { type: 'string', required: true },
+      status: { type: 'string', required: true },
       deletedAt: { type: 'string' },
     },
     table,
