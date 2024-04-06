@@ -2,10 +2,10 @@ import { UserDummy } from '../../../../domain/entities/test/dummy'
 import { User } from '../../../../domain/entities/user/user'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { UserNotFoundError } from '../errors'
-import { UserDynamoDBRepositoryFactory } from './repository'
+import { UserRepositoryFactory } from '../factory'
 
 const appCtx = TestAppCtx()
-const repository = new UserDynamoDBRepositoryFactory().instance(appCtx)
+const repository = new UserRepositoryFactory().dynamodb(appCtx)
 
 test('list() should return an empty collection', async () => {
   jest.spyOn(repository.schema, 'query').mockResolvedValue({ $metadata: {} })
@@ -43,8 +43,8 @@ test('list() should list users', async () => {
 })
 
 test('list() should paginate', async () => {
-  await repository.persist(UserDummy({ id: 'firstUser' }))
-  await repository.persist(UserDummy({ id: 'secondUser' }))
+  await repository.persist(UserDummy({ name: 'firstUser' }))
+  await repository.persist(UserDummy({ name: 'secondUser' }))
 
   const { collection: firstCollection, cursor: firstCursor } =
     await repository.list({

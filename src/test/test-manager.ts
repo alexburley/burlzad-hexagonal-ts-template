@@ -1,9 +1,10 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { GenericContainer, StartedTestContainer } from 'testcontainers'
 import { ApplicationContext } from '../lib/app-ctx/app-ctx'
-import { wait } from '../lib/promises/promises'
 import { ConfigurationFactory } from '../lib/configuration/configuration'
 import pino from 'pino'
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 /**
  * This is intended to be called from test files

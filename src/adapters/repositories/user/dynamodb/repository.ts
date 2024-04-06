@@ -1,32 +1,20 @@
 import { PaginationOptions, UserRepository } from '..'
 import { User } from '../../../../domain/entities/user/user'
 import { Email } from '../../../../domain/models/email'
-import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
 
 import {
-  ServiceDynamoDBClient,
   cursorToStartKey,
   lastEvaluatedKeyToCursor,
 } from '../../../../lib/clients/dynamodb/dynamodb'
 import { UserNotFoundError } from '../errors'
-import { UserSchemaFactory, UserSchemaDDB } from './ddb-schema'
-
-export class UserDynamoDBRepositoryFactory {
-  instance(ctx: ApplicationContext) {
-    const { identityTable } = new ServiceDynamoDBClient(ctx)
-    return new UserDynamoDBRepository({
-      ddbSchema: UserSchemaFactory(identityTable),
-      pk_skIndex: ctx.config.aws.ddb.gsi1SK_PK,
-    })
-  }
-}
+import { UserSchemaDDB } from './ddb-schema'
 
 export type UserDynamoDBRepositoryDeps = {
   ddbSchema: UserSchemaDDB
   pk_skIndex: string
 }
 
-class UserDynamoDBRepository implements UserRepository {
+export class UserDynamoDBRepository implements UserRepository {
   schema
   pk_skIndex
 

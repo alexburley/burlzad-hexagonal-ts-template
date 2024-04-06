@@ -2,12 +2,12 @@ import { UserRepository } from '../../../../adapters/repositories/user'
 import { User } from '../../../entities/user/user'
 import { Email } from '../../../models/email'
 import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
-import { UserDynamoDBRepositoryFactory } from '../../../../adapters/repositories/user/dynamodb/repository'
+import { UserRepositoryFactory } from '../../../../adapters/repositories/user/factory'
 
 export class CreateUserCommandFactory {
   instance(ctx: ApplicationContext) {
     return new CreateUserCommand(ctx, {
-      users: new UserDynamoDBRepositoryFactory().instance(ctx),
+      users: new UserRepositoryFactory().instance(ctx),
     })
   }
 }

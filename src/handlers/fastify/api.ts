@@ -7,7 +7,7 @@ export type ServiceFastifyInstance = ReturnType<
   typeof BaseFastifyInstanceFactory
 >
 
-export const BaseFastifyInstanceFactory = () => {
+const BaseFastifyInstanceFactory = () => {
   return fastify().withTypeProvider<TypeBoxTypeProvider>()
 }
 

@@ -1,7 +1,7 @@
 import { Type as T } from '@sinclair/typebox'
 import { UserTypeSchema } from '../../../../../../domain/entities/user/user'
-import { GetUserByIdQueryFactory } from '../../../../../../domain/use-cases/queries/get-user-by-id/query'
 import { ServiceFastifyInstance } from '../../../../api'
+import { UserRepositoryFactory } from '../../../../../../adapters/repositories/user/factory'
 
 export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
   fastify.get(
@@ -19,8 +19,8 @@ export const GetUserRoute = async (fastify: ServiceFastifyInstance) =>
       },
     },
     async request => {
-      const query = new GetUserByIdQueryFactory().instance(fastify.appCtx)
-      const user = await query.execute(request.params.userId)
+      const repository = new UserRepositoryFactory().instance(fastify.appCtx)
+      const user = await repository.getById(request.params.userId)
 
       return {
         result: user.serialize(),
