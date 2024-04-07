@@ -14,7 +14,7 @@ export type UserDynamoDBRepositoryDeps = {
   pk_skIndex: string
 }
 
-export const _UserFromDynamoDB = (Item: {
+const _UserFromDynamoDB = (Item: {
   id: string
   email: string
   name: string

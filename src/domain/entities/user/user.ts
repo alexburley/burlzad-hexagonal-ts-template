@@ -63,6 +63,12 @@ export class User {
     return this
   }
 
+  update(input: Partial<{ name: string }>): User {
+    this.name = input.name ?? this.name
+    this.modifiedAt = new Date()
+    return this
+  }
+
   serialize(): UserDTO {
     return {
       id: this.id,

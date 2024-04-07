@@ -5,9 +5,9 @@ This repository provides a template for setting up a Node.js project with TypeSc
 It features the following:
 
 - A `fastify` server on an AWS lambdalith
-- Unit testing with `node:test`
+- Unit testing with `jest`
 - Integration testing with `testcontainers`
-- Persistency with DynamoDB using `electrodb`
+- Persistency with DynamoDB using `dynamodb-toolbox`
 - Logging with `pino`
 - `aws-cdk` for deploying the lambdalith to AWS
 - GitHub actions workflow for CI/CD
