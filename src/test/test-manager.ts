@@ -1,8 +1,8 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb'
 import { GenericContainer, StartedTestContainer } from 'testcontainers'
 import { ApplicationContext } from '../lib/app-ctx/app-ctx'
-import { ConfigurationFactory } from '../lib/configuration/configuration'
 import pino from 'pino'
+import { config } from '../lib/configuration/configuration'
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -11,10 +11,8 @@ const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
  * @returns An {@link IntegrationEnvironmentContext} containing config and observability tools
  */
 export const TestAppCtx = (): ApplicationContext => {
-  const config = new ConfigurationFactory().instance()
-
   return {
-    config,
+    config: config(),
     logger: pino(),
   }
 }

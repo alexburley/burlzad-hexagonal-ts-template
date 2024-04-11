@@ -1,11 +1,10 @@
 import fp from 'fastify-plugin'
-import { ConfigurationFactory } from '../../../lib/configuration/configuration'
 import { ApplicationContext } from '../../../lib/app-ctx/app-ctx'
+import { config } from '../../../lib/configuration/configuration'
 
 export const FastifyApplicationContext = fp((fastify, opts, done) => {
-  const configuration = new ConfigurationFactory()
   const appCtx: ApplicationContext = {
-    config: configuration.instance(),
+    config: config(),
     logger: fastify.log.child({}),
   }
   fastify.decorate('appCtx', appCtx)

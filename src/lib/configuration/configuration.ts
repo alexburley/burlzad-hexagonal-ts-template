@@ -1,3 +1,5 @@
+import { ConfigurationFactory } from './factory'
+
 export type ServiceConfiguration = {
   core: {
     serviceName: string
@@ -12,26 +14,22 @@ export type ServiceConfiguration = {
   }
 }
 
-export class ConfigurationFactory {
-  private config?: ServiceConfiguration
-
-  instance(): ServiceConfiguration {
-    if (this.config) {
-      return this.config
-    }
-
-    return {
-      core: {
-        serviceName: 'default-service-name',
+export const config = new ConfigurationFactory({
+  default: () => ({
+    core: {
+      serviceName: 'default-service-name',
+    },
+    aws: {
+      region: 'eu-west-1',
+      ddb: {
+        identityTableName: 'default-identity-table-name',
+        endpoint: 'http://localhost:4580',
+        gsi1SK_PK: 'gsi1-sk-pk',
       },
-      aws: {
-        region: 'eu-west-1',
-        ddb: {
-          identityTableName: 'default-identity-table-name',
-          endpoint: 'http://localhost:4580',
-          gsi1SK_PK: 'gsi1-sk-pk',
-        },
-      },
-    }
-  }
-}
+    },
+  }),
+  test: () => ({}),
+  staging: () => ({}),
+  local: () => ({}),
+  prod: () => ({}),
+}).instance
