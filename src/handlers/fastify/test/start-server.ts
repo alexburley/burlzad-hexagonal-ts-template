@@ -11,6 +11,6 @@ if (require.main === module) {
   })
   server.listen({ port: 3000 }, err => {
     if (err) console.error(err)
-    console.log('server listening on 3000')
+    console.log('Listening on 3000')
   })
 }
