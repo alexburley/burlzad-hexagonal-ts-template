@@ -32,4 +32,4 @@ export const config = new ConfigurationFactory({
   staging: () => ({}),
   local: () => ({}),
   prod: () => ({}),
-}).instance
+})

@@ -4,7 +4,7 @@ import { config } from '../../../lib/configuration/configuration'
 
 export const FastifyApplicationContext = fp((fastify, opts, done) => {
   const appCtx: ApplicationContext = {
-    config: config(),
+    config: config.instance(),
     logger: fastify.log.child({}),
   }
   fastify.decorate('appCtx', appCtx)

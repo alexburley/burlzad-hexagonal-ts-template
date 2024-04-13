@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "build": "tsc -p tsconfig.json",
-    "start": "tsx src/handlers/fastify/test/start-server.ts",
+    "start": "NODE_ENV=local tsx src/handlers/fastify/test/start-server.ts",
     "lint": "eslint ."
   },
   "author": "",
