@@ -1,6 +1,6 @@
 import { PaginationOptions, UserRepository } from '..'
 import { User, UserStatus } from '../../../../domain/entities/user/user'
-import { Email } from '../../../../domain/models/email'
+import { Email } from '../../../../domain/values/email'
 
 import {
   cursorToStartKey,

@@ -3,7 +3,7 @@ import { TestAppCtx } from '../../../../test/test-manager'
 import { DeleteUserCommand } from './command'
 import { UserRepository } from '../../../../adapters/repositories/user'
 import { UserDummy } from '../../../entities/test/dummy'
-import { Email } from '../../../models/email'
+import { Email } from '../../../values/email'
 
 const repository = mock<UserRepository>()
 const command = new DeleteUserCommand(TestAppCtx(), {

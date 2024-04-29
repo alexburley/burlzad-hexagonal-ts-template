@@ -9,7 +9,7 @@ export type EnvironmentResolvers = {
   default: (source: EnvVars) => ServiceConfiguration
   local: (source: EnvVars) => DeepPartial<ServiceConfiguration>
   test: (source: EnvVars) => DeepPartial<ServiceConfiguration>
-  staging: (source: EnvVars) => DeepPartial<ServiceConfiguration>
+  preview: (source: EnvVars) => DeepPartial<ServiceConfiguration>
   prod: (source: EnvVars) => DeepPartial<ServiceConfiguration>
 }
 

@@ -1,4 +1,4 @@
-import { Email } from '../../../../../domain/models/email'
+import { Email } from '../../../../../domain/values/email'
 import { CreateUserCommandFactory } from '../../../../../domain/use-cases/commands/create-user/command'
 import { testServer } from '../../../../../test/setup-after-env'
 import { TestAppCtx } from '../../../../../test/test-manager'

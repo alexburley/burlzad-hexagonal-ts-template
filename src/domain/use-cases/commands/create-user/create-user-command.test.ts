@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { CreateUserCommand } from './command'
 import { UserRepository } from '../../../../adapters/repositories/user'
-import { Email } from '../../../models/email'
+import { Email } from '../../../values/email'
 import { UserDummy } from '../../../entities/test/dummy'
 
 const repository = mock<UserRepository>()

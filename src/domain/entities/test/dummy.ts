@@ -1,4 +1,4 @@
-import { Email } from '../../models/email'
+import { Email } from '../../values/email'
 import { User, UserProps, UserStatuses } from '../user/user'
 
 const BaseProps = () => ({

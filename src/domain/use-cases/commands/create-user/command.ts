@@ -1,6 +1,6 @@
 import { UserRepository } from '../../../../adapters/repositories/user'
 import { User } from '../../../entities/user/user'
-import { Email } from '../../../models/email'
+import { Email } from '../../../values/email'
 import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
 import { UserRepositoryFactory } from '../../../../adapters/repositories/user/factory'
 

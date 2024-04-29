@@ -3,7 +3,7 @@ import {
   UserDTO,
   UserTypeSchema,
 } from '../../../../../domain/entities/user/user'
-import { Email } from '../../../../../domain/models/email'
+import { Email } from '../../../../../domain/values/email'
 import { CreateUserCommandFactory } from '../../../../../domain/use-cases/commands/create-user/command'
 import { ServiceFastifyInstance } from '../../../api'
 

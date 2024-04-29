@@ -28,8 +28,8 @@ export const config = new ConfigurationFactory({
       },
     },
   }),
-  test: () => ({}),
-  staging: () => ({}),
   local: () => ({}),
+  test: () => ({}),
+  preview: () => ({}),
   prod: () => ({}),
 })
