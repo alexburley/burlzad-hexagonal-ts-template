@@ -1,7 +1,7 @@
 import {
   DeletedUserDummy,
   UserDummy,
-} from '../../../../domain/entities/test/dummy'
+} from '../../../../domain/entities/user/test/dummy'
 import { User } from '../../../../domain/entities/user/user'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { UserNotFoundError } from '../errors'

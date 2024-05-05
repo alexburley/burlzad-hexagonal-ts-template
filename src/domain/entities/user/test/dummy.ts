@@ -1,5 +1,5 @@
-import { Email } from '../../values/email'
-import { User, UserProps, UserStatuses } from '../user/user'
+import { Email } from '../../../values/email'
+import { User, UserProps, UserStatuses } from '../user'
 
 const BaseProps = () => ({
   name: 'John Doe',

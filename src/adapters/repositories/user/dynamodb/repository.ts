@@ -11,7 +11,7 @@ import { UserSchemaDDB } from './ddb-schema'
 
 export type UserDynamoDBRepositoryDeps = {
   ddbSchema: UserSchemaDDB
-  pk_skIndex: string
+  sk_pkIndex: string
 }
 
 const _UserFromDynamoDB = (Item: {
@@ -40,7 +40,7 @@ export class UserDynamoDBRepository implements UserRepository {
 
   constructor(deps: UserDynamoDBRepositoryDeps) {
     this.schema = deps.ddbSchema
-    this.pk_skIndex = deps.pk_skIndex
+    this.pk_skIndex = deps.sk_pkIndex
   }
 
   async getById(id: string) {

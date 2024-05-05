@@ -1,7 +1,7 @@
 import merge from 'lodash.merge'
-import { flatten } from 'flat'
 import { ServiceConfiguration } from './configuration'
 import { DeepPartial, DeepReadonly as DeepReadOnly } from '../types'
+import { flattenObject } from '../collections'
 
 type EnvVars = Record<string, string | undefined>
 
@@ -35,7 +35,7 @@ export class ConfigurationFactory {
   }
 
   private validateConfig(configuration: DeepReadOnly<ServiceConfiguration>) {
-    const flatConfig = flatten(configuration) as Record<string, unknown>
+    const flatConfig = flattenObject(configuration)
     let missingValues = ''
     Object.keys(flatConfig).forEach(key => {
       if (flatConfig[key] === undefined) {

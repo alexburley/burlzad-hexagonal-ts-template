@@ -12,7 +12,7 @@ const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
  */
 export const TestAppCtx = (): ApplicationContext => {
   return {
-    config: config(),
+    config: config.instance(),
     logger: pino(),
   }
 }

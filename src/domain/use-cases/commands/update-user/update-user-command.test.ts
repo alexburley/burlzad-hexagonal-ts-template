@@ -2,7 +2,7 @@ import { mock } from 'jest-mock-extended'
 import { TestAppCtx } from '../../../../test/test-manager'
 import { UpdateUserCommand } from './command'
 import { UserRepository } from '../../../../adapters/repositories/user'
-import { UserDummy } from '../../../entities/test/dummy'
+import { UserDummy } from '../../../entities/user/test/dummy'
 
 const repository = mock<UserRepository>()
 const command = new UpdateUserCommand(TestAppCtx(), {

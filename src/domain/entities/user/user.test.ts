@@ -1,4 +1,4 @@
-import { DeletedUserDummy, UserDummy } from '../test/dummy'
+import { DeletedUserDummy, UserDummy } from './test/dummy'
 
 test('Contract test (Active User)', () => {
   expect(UserDummy().serialize()).toEqual({
