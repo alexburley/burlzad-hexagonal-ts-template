@@ -1,4 +1,5 @@
 import { ServiceFastifyInstance } from '../api'
+import { CreateConsultantApplicationRoute } from './v1/consultants/apply/put'
 import { ListUsersRoute } from './v1/users/list'
 import { CreateUserRoute } from './v1/users/post'
 import { DeleteUserRoute } from './v1/users/{userId}/delete'
@@ -12,3 +13,4 @@ export const Routes = async (fastify: ServiceFastifyInstance) =>
     .register(ListUsersRoute)
     .register(DeleteUserRoute)
     .register(UpdateUserRoute)
+    .register(CreateConsultantApplicationRoute)

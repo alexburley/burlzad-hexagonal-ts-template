@@ -3,7 +3,7 @@ import {
   Consultant,
   ConsultantStatus,
 } from '../../../../domain/entities/consultant/consultant'
-import { Email } from '../../../../domain/values/email'
+import { ConsultantApplicationDTO } from '../../../../domain/entities/consultant/consultant-application'
 
 import {
   cursorToStartKey,
@@ -19,27 +19,15 @@ export type ConsultantDynamoDBRepositoryDeps = {
 
 const _ConsultantFromDynamoDB = (Item: {
   id: string
-  application?: {
-    name: string
-    email: string
-  }
-  linkedInUrl?: string
-  occupation: string
+  application?: ConsultantApplicationDTO
   status: string
   created: string
   modified: string
 }) => {
   return new Consultant({
     id: Item.id,
-    application: Item.application
-      ? {
-          email: new Email(Item.application.email),
-          name: Item.application.name,
-        }
-      : undefined,
-    occupation: Item.occupation,
+    application: Item.application,
     status: Item.status as ConsultantStatus,
-    linkedInUrl: Item.linkedInUrl,
     createdAt: new Date(Item.created),
     modifiedAt: new Date(Item.modified),
   })
@@ -81,20 +69,9 @@ export class ConsultantDynamoDBRepository implements ConsultantRepository {
   }
 
   async persist(consultant: Consultant) {
-    const application = consultant.application
-      ? {
-          application: {
-            name: consultant.application.name,
-            email: consultant.application.email.value,
-          },
-        }
-      : {}
-
     await this.schema.put({
       id: consultant.id,
-      occupation: consultant.occupation,
-      linkedInUrl: consultant.linkedInUrl,
-      ...application,
+      application: consultant.application,
       status: consultant.status,
       created: consultant.createdAt.toISOString(),
       modified: consultant.modifiedAt.toISOString(),

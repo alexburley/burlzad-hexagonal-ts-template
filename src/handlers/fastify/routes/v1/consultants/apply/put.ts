@@ -6,6 +6,7 @@ import {
   ConsultantDTO,
   ConsultantTypeSchema,
 } from '../../../../../../domain/entities/consultant/consultant'
+import { ConsultantApplication } from '../../../../../../domain/entities/consultant/consultant-application'
 
 export type CreateConsultantApplicationResponse = {
   result: ConsultantDTO
@@ -22,7 +23,8 @@ export const CreateConsultantApplicationRoute = async (
           name: T.String(),
           email: T.String({ format: 'email' }),
           occupation: T.String(),
-          linkedinUrl: T.String({ format: 'url' }),
+          description: T.String(),
+          linkedinUrl: T.Optional(T.String({ format: 'url' })),
         }),
         response: {
           200: T.Object({ result: ConsultantTypeSchema }),
@@ -34,10 +36,15 @@ export const CreateConsultantApplicationRoute = async (
         fastify.appCtx,
       )
 
-      const consultant = await command.execute({
-        name: request.body.name,
-        email: new Email(request.body.email),
-      })
+      const consultant = await command.execute(
+        new ConsultantApplication({
+          name: request.body.name,
+          email: new Email(request.body.email),
+          occupation: request.body.occupation,
+          linkedInUrl: request.body.linkedinUrl,
+          description: request.body.description,
+        }),
+      )
 
       return {
         result: consultant.serialize(),

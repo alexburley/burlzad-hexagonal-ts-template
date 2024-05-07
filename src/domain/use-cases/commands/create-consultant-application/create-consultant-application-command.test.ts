@@ -1,21 +1,21 @@
 import { mock } from 'jest-mock-extended'
-import { TestAppCtx } from '../../../../test/test-manager'
-import { CreateUserCommand } from './command'
-import { UserRepository } from '../../../../adapters/repositories/user'
-import { Email } from '../../../values/email'
-import { UserDummy } from '../../../entities/user/test/dummy'
+import { CreateConsultantApplicationCommand } from './command'
+import { ConsultantRepository } from '../../../../adapters/repositories/consultant'
+import {
+  ConsultantApplicationDummy,
+  PendingConsultantDummy,
+} from '../../../entities/consultant/test/dummy'
 
-const repository = mock<UserRepository>()
-const command = new CreateUserCommand(TestAppCtx(), {
-  users: repository,
+const repository = mock<ConsultantRepository>()
+const command = new CreateConsultantApplicationCommand({
+  consultants: repository,
 })
 
 test('should create a user', async () => {
-  const result = await command.execute({
-    name: 'John Doe',
-    email: new Email('john@mail.com'),
-  })
+  const result = await command.execute(ConsultantApplicationDummy())
 
   expect(repository.persist).toHaveBeenCalledWith(result)
-  expect(result).toEqual(UserDummy({ id: expect.stringContaining('user_') }))
+  expect(result).toEqual(
+    PendingConsultantDummy({ id: expect.stringContaining('consultant_') }),
+  )
 })

@@ -1,32 +1,31 @@
-import { UserRepository } from '../../../../adapters/repositories/user'
-import { User } from '../../../entities/user/user'
-import { Email } from '../../../values/email'
 import { ApplicationContext } from '../../../../lib/app-ctx/app-ctx'
-import { UserRepositoryFactory } from '../../../../adapters/repositories/user/factory'
+import { ConsultantApplication } from '../../../entities/consultant/consultant-application'
+import { Consultant } from '../../../entities/consultant/consultant'
+import { ConsultantRepository } from '../../../../adapters/repositories/consultant'
+import { ConsultantRepositoryFactory } from '../../../../adapters/repositories/consultant/factory'
 
 export class CreateConsultantApplicationCommandFactory {
   instance(ctx: ApplicationContext) {
-    return new CreateConsultantApplicationCommand(ctx, {
-      users: new UserRepositoryFactory().instance(ctx),
+    return new CreateConsultantApplicationCommand({
+      consultants: new ConsultantRepositoryFactory().instance(ctx),
     })
   }
 }
 
 export type CreateConsultantApplicationCommandDeps = {
-  users: UserRepository
+  consultants: ConsultantRepository
 }
 
 export class CreateConsultantApplicationCommand {
-  users
+  consultants
 
-  constructor(
-    ctx: ApplicationContext,
-    deps: CreateConsultantApplicationCommandDeps,
-  ) {
-    this.users = deps.users
+  constructor(deps: CreateConsultantApplicationCommandDeps) {
+    this.consultants = deps.consultants
   }
 
-  async execute() {
-    throw new Error('Not Implemented')
+  async execute(application: ConsultantApplication) {
+    const consultant = Consultant.fromApplication(application)
+    await this.consultants.persist(consultant)
+    return consultant
   }
 }

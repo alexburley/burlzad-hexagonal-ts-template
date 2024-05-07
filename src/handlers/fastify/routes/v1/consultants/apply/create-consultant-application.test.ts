@@ -1,25 +1,32 @@
-import { testServer } from '../../../../../test/setup-after-env'
+import { testServer } from '../../../../../../test/setup-after-env'
 
-test('should create a user', async () => {
+test('should create a pending consultant', async () => {
   const response = await testServer.inject({
-    method: 'POST',
-    url: '/v1/users',
+    method: 'PUT',
+    url: '/v1/consultants/apply',
     body: {
       name: 'John Doe',
       email: 'john@mail.com',
+      occupation: 'CEO',
+      description: 'Greatest CEO',
+      linkedinUrl: 'https://linkedin.com/johndoe',
     },
   })
 
   expect(response.statusCode).toBe(200)
   expect(response.json()).toEqual({
     result: {
-      id: expect.stringContaining('user_'),
-      name: 'John Doe',
-      email: 'john@mail.com',
+      id: expect.stringContaining('consultant_'),
+      application: {
+        name: 'John Doe',
+        email: 'john@mail.com',
+        occupation: 'CEO',
+        description: 'Greatest CEO',
+        linkedinUrl: 'https://linkedin.com/johndoe',
+      },
       createdAt: '2000-01-01T00:00:00.000Z',
       modifiedAt: '2000-01-01T00:00:00.000Z',
-      status: 'ACTIVE',
-      deletedAt: null,
+      status: 'PENDING',
     },
   })
 })

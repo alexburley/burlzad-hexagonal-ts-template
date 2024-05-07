@@ -10,8 +10,6 @@ export const ConsultantSchemaFactory = (table: ServiceTable) =>
       id: { partitionKey: true },
       sk: { default: 'CONSULTANT#', hidden: true, sortKey: true },
       status: { type: 'string', required: true },
-      occupation: { type: 'string', required: true },
-      linkedInUrl: { type: 'string' },
       application: { type: 'map' },
     },
     table,
