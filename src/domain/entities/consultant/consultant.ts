@@ -1,11 +1,11 @@
 import { Static, Type as T } from '@sinclair/typebox'
-import shortUUID from 'short-uuid'
 import {
   ConsultantApplicationTypeSchema,
   ConsultantApplicationDTO,
   ConsultantApplication,
 } from './consultant-application'
 import { Nullable } from '../../../lib/json-schema'
+import { AggregateRoot, EntityProps } from '@burlzad/ddd'
 
 export const ConsultantStatus = {
   Pending: 'PENDING',
@@ -26,32 +26,19 @@ export const ConsultantTypeSchema = T.Object({
 
 export type ConsultantDTO = Static<typeof ConsultantTypeSchema>
 
-export type ConsultantProps = {
-  id?: string
-  versionId?: string
+export type ConsultantProps = EntityProps<{
   application?: ConsultantApplicationDTO
   status: ConsultantStatus
-  createdAt?: Date
-  modifiedAt?: Date
-}
+}>
 
-export class Consultant {
-  readonly id: string
-  readonly versionId: string
-  readonly createdAt: Date
-  readonly userId?: string
-  status: ConsultantStatus
-  application?: ConsultantApplicationDTO
-  modifiedAt: Date
-  deletedAt?: Date
+export class Consultant extends AggregateRoot<ConsultantProps> {
+  status
+  application
 
   constructor(props: ConsultantProps) {
-    this.id = props.id ?? `consultant_${shortUUID.generate()}`
-    this.versionId = props.versionId ?? shortUUID.generate()
+    super({ ...props, idPrefix: 'consultant' })
     this.application = props.application
     this.status = props.status
-    this.createdAt = props.createdAt ?? new Date()
-    this.modifiedAt = props.modifiedAt ?? new Date()
   }
 
   static fromApplication(application: ConsultantApplication): Consultant {
