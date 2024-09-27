@@ -1,5 +1,5 @@
 import { ServiceFastifyInstance } from '../api'
-import { CreateConsultantApplicationRoute } from './v1/consultants/apply/put'
+import { CreateConsultantApplicationRoute } from './v1/consultants/applications/put'
 import { ListUsersRoute } from './v1/users/list'
 import { CreateUserRoute } from './v1/users/post'
 import { DeleteUserRoute } from './v1/users/{userId}/delete'

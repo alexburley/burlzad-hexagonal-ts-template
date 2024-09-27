@@ -28,6 +28,7 @@ export type ConsultantDTO = Static<typeof ConsultantTypeSchema>
 
 export type ConsultantProps = {
   id?: string
+  versionId?: string
   application?: ConsultantApplicationDTO
   status: ConsultantStatus
   createdAt?: Date
@@ -36,6 +37,7 @@ export type ConsultantProps = {
 
 export class Consultant {
   readonly id: string
+  readonly versionId: string
   readonly createdAt: Date
   readonly userId?: string
   status: ConsultantStatus
@@ -45,6 +47,7 @@ export class Consultant {
 
   constructor(props: ConsultantProps) {
     this.id = props.id ?? `consultant_${shortUUID.generate()}`
+    this.versionId = props.versionId ?? shortUUID.generate()
     this.application = props.application
     this.status = props.status
     this.createdAt = props.createdAt ?? new Date()

@@ -3,7 +3,7 @@ import { testServer } from '../../../../../../test/setup-after-env'
 test('should create a pending consultant', async () => {
   const response = await testServer.inject({
     method: 'PUT',
-    url: '/v1/consultants/apply',
+    url: '/v1/consultants/applications',
     body: {
       name: 'John Doe',
       email: 'john@mail.com',

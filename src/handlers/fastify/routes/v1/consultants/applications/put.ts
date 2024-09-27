@@ -16,7 +16,7 @@ export const CreateConsultantApplicationRoute = async (
   fastify: ServiceFastifyInstance,
 ) =>
   fastify.put(
-    '/v1/consultants/apply',
+    '/v1/consultants/applications',
     {
       schema: {
         body: T.Object({

@@ -1,3 +1,4 @@
+import shortUUID from 'short-uuid'
 import { PaginationOptions, ConsultantRepository } from '..'
 import {
   Consultant,
@@ -11,6 +12,7 @@ import {
 } from '../../../../lib/clients/dynamodb/dynamodb'
 import { ConsultantNotFoundError } from '../errors'
 import { ConsultantSchemaDDB, DDB_CONSULTANT_SK } from './ddb-schema'
+import { ConcurrencyCheckError } from '../../errors'
 
 export type ConsultantDynamoDBRepositoryDeps = {
   ddbSchema: ConsultantSchemaDDB
@@ -21,6 +23,7 @@ const _ConsultantFromDynamoDB = (Item: {
   id: string
   application?: ConsultantApplicationDTO
   status: string
+  versionId: string
   created: string
   modified: string
 }) => {
@@ -28,6 +31,7 @@ const _ConsultantFromDynamoDB = (Item: {
     id: Item.id,
     application: Item.application,
     status: Item.status as ConsultantStatus,
+    versionId: Item.versionId,
     createdAt: new Date(Item.created),
     modifiedAt: new Date(Item.modified),
   })
@@ -69,12 +73,31 @@ export class ConsultantDynamoDBRepository implements ConsultantRepository {
   }
 
   async persist(consultant: Consultant) {
-    await this.schema.put({
-      id: consultant.id,
-      application: consultant.application,
-      status: consultant.status,
-      created: consultant.createdAt.toISOString(),
-      modified: consultant.modifiedAt.toISOString(),
-    })
+    try {
+      await this.schema.put(
+        {
+          id: consultant.id,
+          application: consultant.application,
+          status: consultant.status,
+          created: consultant.createdAt.toISOString(),
+          modified: consultant.modifiedAt.toISOString(),
+          versionId: shortUUID.generate(),
+        },
+        {
+          conditions: [
+            {
+              attr: 'versionId',
+              eq: consultant.versionId,
+            },
+          ],
+        },
+      )
+    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((err as any).code === 'ConditionalCheckFailedException') {
+        throw new ConcurrencyCheckError()
+      }
+      throw err
+    }
   }
 }

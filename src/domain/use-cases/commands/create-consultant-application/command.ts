@@ -5,6 +5,7 @@ import { ConsultantRepository } from '../../../../adapters/repositories/consulta
 import { ConsultantRepositoryFactory } from '../../../../adapters/repositories/consultant/factory'
 import { EmailClientAdapter } from '../../../../adapters/email-client'
 import { EmailClientFactory } from '../../../../adapters/email-client/factory'
+import { RetryConcurrencyConflict } from '../../../../adapters/repositories/errors'
 
 export class CreateConsultantApplicationCommandFactory {
   instance(ctx: ApplicationContext) {
@@ -29,7 +30,16 @@ export class CreateConsultantApplicationCommand {
     this.emails = deps.emails
   }
 
+  @RetryConcurrencyConflict
   async execute(application: ConsultantApplication) {
+    const { collection: consultants } = await this.consultants.list()
+
+    if (
+      consultants.find(c => c.application?.email === application.email.value)
+    ) {
+      throw new Error('Application already exists')
+    }
+
     const consultant = Consultant.fromApplication(application)
     await this.consultants.persist(consultant)
     await this.emails.send(application.email, {
