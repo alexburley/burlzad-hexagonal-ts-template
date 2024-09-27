@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.540.0",
-    "@burlzad/config": "^0.0.2",
+    "@burlzad/config": "^0.0.3",
     "@burlzad/ddd": "^0.0.4",
     "@fastify/aws-lambda": "^4.0.0",
     "@fastify/type-provider-typebox": "^4.0.0",

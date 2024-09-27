@@ -1,21 +1,7 @@
-import { ConfigurationFactory } from './factory'
+import { configure } from '@burlzad/config'
 
-export type ServiceConfiguration = {
-  core: {
-    serviceName: string
-  }
-  aws: {
-    region: string
-    ddb: {
-      identityTableName: string
-      endpoint: string
-      gsi1SK_PK: string
-    }
-  }
-}
-
-export const config = new ConfigurationFactory({
-  default: () => ({
+const resolvers = {
+  DEFAULT: () => ({
     core: {
       serviceName: 'default-service-name',
     },
@@ -32,4 +18,7 @@ export const config = new ConfigurationFactory({
   test: () => ({}),
   preview: () => ({}),
   prod: () => ({}),
-})
+} as const
+
+export const config = configure(resolvers)
+export type ServiceConfiguration = typeof config
